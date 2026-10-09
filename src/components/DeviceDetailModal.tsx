@@ -215,6 +215,32 @@ export const DeviceDetailModal: React.FC<DeviceDetailModalProps> = ({
                       />
                     </div>
                     <div>
+                      <label className="block text-slate-500 mb-1">Kondisi Mouse</label>
+                      <select
+                        value={editForm.mouseCondition}
+                        onChange={e => setEditForm({...editForm, mouseCondition: e.target.value as any})}
+                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg font-bold"
+                      >
+                        <option value="Baik">Baik</option>
+                        <option value="Ringan">Ringan</option>
+                        <option value="Sedang">Sedang</option>
+                        <option value="Rusak Berat">Rusak Berat</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-slate-500 mb-1">Kondisi Keyboard</label>
+                      <select
+                        value={editForm.keyboardCondition}
+                        onChange={e => setEditForm({...editForm, keyboardCondition: e.target.value as any})}
+                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg font-bold"
+                      >
+                        <option value="Baik">Baik</option>
+                        <option value="Ringan">Ringan</option>
+                        <option value="Sedang">Sedang</option>
+                        <option value="Rusak Berat">Rusak Berat</option>
+                      </select>
+                    </div>
+                    <div>
                       <label className="block text-slate-500 mb-1">Kondisi Kesehatan</label>
                       <select
                         value={editForm.status}

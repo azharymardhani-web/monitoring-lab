@@ -42,7 +42,12 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
               <th>Model Perangkat</th>
               <th>Serial Number</th>
               <th>IP Address</th>
+              <th>Processor</th>
+              <th>RAM</th>
+              <th>Storage</th>
               <th>Kondisi</th>
+              <th>Mouse</th>
+              <th>Keyboard</th>
               <th>Catatan</th>
             </tr>
           </thead>
@@ -55,7 +60,12 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
                 <td>${d.brandModel}</td>
                 <td>${d.serialNumber}</td>
                 <td>${d.ipAddress}</td>
+                <td>${d.processor}</td>
+                <td>${d.ramCapacity}</td>
+                <td>${d.storageType} ${d.storageCapacity}</td>
                 <td><b>${d.status}</b></td>
+                <td>${d.mouseCondition || '-'}</td>
+                <td>${d.keyboardCondition || '-'}</td>
                 <td>${d.notes || '-'}</td>
               </tr>
             `).join('')}
@@ -248,7 +258,12 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
                   <th className="px-3 py-2.5 border border-slate-300 font-bold">Model Perangkat</th>
                   <th className="px-3 py-2.5 border border-slate-300 font-bold">Serial Number</th>
                   <th className="px-3 py-2.5 border border-slate-300 font-bold">IP Address</th>
+                  <th className="px-3 py-2.5 border border-slate-300 font-bold">Processor</th>
+                  <th className="px-3 py-2.5 border border-slate-300 font-bold">RAM</th>
+                  <th className="px-3 py-2.5 border border-slate-300 font-bold">Storage</th>
                   <th className="px-3 py-2.5 border border-slate-300 font-bold">Kondisi</th>
+                  <th className="px-3 py-2.5 border border-slate-300 font-bold">Mouse</th>
+                  <th className="px-3 py-2.5 border border-slate-300 font-bold">Keyboard</th>
                   <th className="px-3 py-2.5 border border-slate-300 font-bold">Catatan</th>
                 </tr>
               </thead>
@@ -261,7 +276,12 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
                     <td className="px-3 py-2 border border-slate-300">{d.brandModel}</td>
                     <td className="px-3 py-2 border border-slate-300 font-mono">{d.serialNumber}</td>
                     <td className="px-3 py-2 border border-slate-300 font-mono">{d.ipAddress}</td>
+                    <td className="px-3 py-2 border border-slate-300 font-mono">{d.processor}</td>
+                    <td className="px-3 py-2 border border-slate-300 font-mono">{d.ramCapacity}</td>
+                    <td className="px-3 py-2 border border-slate-300 font-mono">{d.storageType} {d.storageCapacity}</td>
                     <td className="px-3 py-2 border border-slate-300 font-bold capitalize">{d.status}</td>
+                    <td className="px-3 py-2 border border-slate-300 font-bold capitalize">{d.mouseCondition || '-'}</td>
+                    <td className="px-3 py-2 border border-slate-300 font-bold capitalize">{d.keyboardCondition || '-'}</td>
                     <td className="px-3 py-2 border border-slate-300">{d.notes || '-'}</td>
                   </tr>
                 ))}

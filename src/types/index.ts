@@ -21,6 +21,8 @@ export interface Device {
   macAddress: string; // e.g., '70:85:c2:34:56:78'
   acquisitionDate: string; // e.g., '2025-01-15'
   physicalCondition: 'Baik' | 'Ringan' | 'Sedang' | 'Rusak Berat';
+  mouseCondition: 'Baik' | 'Ringan' | 'Sedang' | 'Rusak Berat';
+  keyboardCondition: 'Baik' | 'Ringan' | 'Sedang' | 'Rusak Berat';
   softwareCondition: 'Normal' | 'Perlu Update' | 'Corrupt';
   status: DeviceCondition;
   connectionStatus: ConnectionStatus;

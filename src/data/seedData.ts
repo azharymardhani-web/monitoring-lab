@@ -81,6 +81,8 @@ export function generateSeedDevices(): Device[] {
       macAddress: `70:85:c2:${(10 + i).toString(16)}:2a:${(40 + i).toString(16)}`,
       acquisitionDate: '2025-01-10',
       physicalCondition: status === 'critical' ? 'Sedang' : 'Baik',
+      mouseCondition: status === 'needs_inspection' ? 'Ringan' : 'Baik',
+      keyboardCondition: status === 'maintenance' ? 'Sedang' : 'Baik',
       softwareCondition: status === 'needs_inspection' ? 'Perlu Update' : 'Normal',
       status,
       connectionStatus,

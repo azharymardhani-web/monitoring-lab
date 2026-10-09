@@ -408,7 +408,7 @@ export const Inventory: React.FC<InventoryProps> = ({
                     />
                   </div>
                 )}
-                <div className="sm:col-span-2 grid grid-cols-2 gap-4">
+                <div className="sm:col-span-2 grid grid-cols-3 gap-4">
                   <div>
                     <label className="block text-slate-500 mb-1">Sistem Operasi (OS)</label>
                     <input
@@ -419,6 +419,32 @@ export const Inventory: React.FC<InventoryProps> = ({
                       placeholder="Contoh: Windows 11 Pro"
                       required
                     />
+                  </div>
+                  <div>
+                    <label className="block text-slate-500 mb-1">Kondisi Mouse</label>
+                    <select
+                      value={newDevice.mouseCondition || 'Baik'}
+                      onChange={e => setNewDevice({...newDevice, mouseCondition: e.target.value as any})}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                    >
+                      <option value="Baik">Baik</option>
+                      <option value="Ringan">Ringan</option>
+                      <option value="Sedang">Sedang</option>
+                      <option value="Rusak Berat">Rusak Berat</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-slate-500 mb-1">Kondisi Keyboard</label>
+                    <select
+                      value={newDevice.keyboardCondition || 'Baik'}
+                      onChange={e => setNewDevice({...newDevice, keyboardCondition: e.target.value as any})}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                    >
+                      <option value="Baik">Baik</option>
+                      <option value="Ringan">Ringan</option>
+                      <option value="Sedang">Sedang</option>
+                      <option value="Rusak Berat">Rusak Berat</option>
+                    </select>
                   </div>
                 </div>
                 <div className="sm:col-span-2">
