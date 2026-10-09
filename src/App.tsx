@@ -137,6 +137,12 @@ export default function App() {
     StorageService.saveMaintenance(updated);
   };
 
+  const handleDeleteMaintenance = (id: string) => {
+    const updated = maintenance.filter(m => m.id !== id);
+    setMaintenance(updated);
+    StorageService.saveMaintenance(updated);
+  };
+
   // Notification handlers
   const handleMarkAllRead = () => {
     const updated = notifications.map(n => ({ ...n, read: true }));
@@ -268,6 +274,7 @@ export default function App() {
               maintenance={maintenance}
               onAddMaintenance={handleAddMaintenance}
               onUpdateMaintenance={handleUpdateMaintenance}
+              onDeleteMaintenance={handleDeleteMaintenance}
             />
           )}
 

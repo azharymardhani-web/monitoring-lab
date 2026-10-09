@@ -6,9 +6,10 @@ interface MaintenanceProps {
   maintenance: MaintenanceRecord[];
   onAddMaintenance: (record: MaintenanceRecord) => void;
   onUpdateMaintenance: (record: MaintenanceRecord) => void;
+  onDeleteMaintenance: (id: string) => void;
 }
 
-export const Maintenance: React.FC<MaintenanceProps> = ({ maintenance, onAddMaintenance, onUpdateMaintenance }) => {
+export const Maintenance: React.FC<MaintenanceProps> = ({ maintenance, onAddMaintenance, onUpdateMaintenance, onDeleteMaintenance }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<MaintenanceRecord | null>(null);
 
@@ -106,7 +107,13 @@ export const Maintenance: React.FC<MaintenanceProps> = ({ maintenance, onAddMain
               ))}
             </div>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-between items-center pt-4 border-t border-slate-100">
+              <button
+                onClick={() => onDeleteMaintenance(rec.id)}
+                className="text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg"
+              >
+                Hapus
+              </button>
               <button
                 onClick={() => {
                   const newStatus = rec.status === 'Selesai' ? 'Berlangsung' : 'Selesai';
