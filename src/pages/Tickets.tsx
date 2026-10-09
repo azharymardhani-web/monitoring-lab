@@ -7,9 +7,10 @@ interface TicketsProps {
   devices: Device[];
   onAddTicket: (ticket: FaultTicket) => void;
   onUpdateTicket: (ticket: FaultTicket) => void;
+  onDeleteTicket: (id: string) => void;
 }
 
-export const Tickets: React.FC<TicketsProps> = ({ tickets, devices, onAddTicket, onUpdateTicket }) => {
+export const Tickets: React.FC<TicketsProps> = ({ tickets, devices, onAddTicket, onUpdateTicket, onDeleteTicket }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTicket, setSelectedTicket] = useState<FaultTicket | null>(null);
@@ -255,22 +256,33 @@ export const Tickets: React.FC<TicketsProps> = ({ tickets, devices, onAddTicket,
                 />
               </div>
             </div>
-            <div className="flex justify-end space-x-3 pt-4">
-              <button
-                onClick={() => setSelectedTicket(null)}
-                className="px-4 py-2 text-slate-600 font-semibold text-xs"
-              >
-                Batal
-              </button>
+            <div className="flex justify-between pt-4">
               <button
                 onClick={() => {
-                  onUpdateTicket(selectedTicket);
+                  onDeleteTicket(selectedTicket.id);
                   setSelectedTicket(null);
                 }}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-lg shadow-blue-600/20"
+                className="px-4 py-2 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl font-bold text-xs"
               >
-                Simpan Perubahan Tiket
+                Hapus Tiket
               </button>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setSelectedTicket(null)}
+                  className="px-4 py-2 text-slate-600 font-semibold text-xs"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={() => {
+                    onUpdateTicket(selectedTicket);
+                    setSelectedTicket(null);
+                  }}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-lg shadow-blue-600/20"
+                >
+                  Simpan Perubahan Tiket
+                </button>
+              </div>
             </div>
           </div>
         </div>

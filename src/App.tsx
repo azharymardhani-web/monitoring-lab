@@ -118,6 +118,12 @@ export default function App() {
     StorageService.saveTickets(updated);
   };
 
+  const handleDeleteTicket = (id: string) => {
+    const updated = tickets.filter(t => t.id !== id);
+    setTickets(updated);
+    StorageService.saveTickets(updated);
+  };
+
   // Maintenance handlers
   const handleAddMaintenance = (record: MaintenanceRecord) => {
     const updated = [record, ...maintenance];
@@ -253,6 +259,7 @@ export default function App() {
               devices={devices}
               onAddTicket={handleAddTicket}
               onUpdateTicket={handleUpdateTicket}
+              onDeleteTicket={handleDeleteTicket}
             />
           )}
 
