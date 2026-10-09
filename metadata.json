@@ -1,0 +1,6 @@
+{
+  "name": "LAB PC MONITORING SYSTEM",
+  "description": "Sistem Monitoring, Inventaris, dan Pemeliharaan Laboratorium Komputer MTs Negeri 14 Jakarta",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
