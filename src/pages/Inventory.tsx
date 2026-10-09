@@ -393,18 +393,20 @@ export const Inventory: React.FC<InventoryProps> = ({
                     required
                   />
                 </div>
-                <div>
-                  <label className="block text-slate-500 mb-1">Posisi Index (1-32)</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="32"
-                    value={newDevice.positionIndex || 1}
-                    onChange={e => setNewDevice({...newDevice, positionIndex: Number(e.target.value)})}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
-                    required
-                  />
-                </div>
+                {!newDevice.isServer && (
+                  <div>
+                    <label className="block text-slate-500 mb-1">Posisi Index (1-32)</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="32"
+                      value={newDevice.positionIndex || 1}
+                      onChange={e => setNewDevice({...newDevice, positionIndex: Number(e.target.value)})}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                      required
+                    />
+                  </div>
+                )}
                 <div className="sm:col-span-2">
                   <label className="block text-slate-500 mb-1">Catatan</label>
                   <input
