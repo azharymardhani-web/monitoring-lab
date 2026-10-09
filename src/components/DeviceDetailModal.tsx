@@ -206,6 +206,15 @@ export const DeviceDetailModal: React.FC<DeviceDetailModalProps> = ({
                       </div>
                     </div>
                     <div>
+                      <label className="block text-slate-500 mb-1">IP Address</label>
+                      <input
+                        type="text"
+                        value={editForm.ipAddress || ''}
+                        onChange={e => setEditForm({...editForm, ipAddress: e.target.value})}
+                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg font-mono"
+                      />
+                    </div>
+                    <div>
                       <label className="block text-slate-500 mb-1">Sistem Operasi (OS)</label>
                       <input
                         type="text"
