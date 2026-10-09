@@ -268,7 +268,7 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
                 </tr>
               </thead>
               <tbody>
-                {devices.map((d, i) => (
+                {[...devices].sort((a, b) => a.deviceName.localeCompare(b.deviceName)).map((d, i) => (
                   <tr key={d.id} className="hover:bg-slate-50">
                     <td className="px-3 py-2 border border-slate-300 text-center font-medium">{i + 1}</td>
                     <td className="px-3 py-2 border border-slate-300 font-bold">{d.deviceName}</td>
