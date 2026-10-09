@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, Save, Terminal, Download, Code } from 'lucide-react';
-import { SystemSettings } from '../types';
+import { Settings as SettingsIcon, Save, Terminal, Download, Code, Trash2, AlertTriangle } from 'lucide-react';
+import { SystemSettings, SystemUser } from '../types';
 
 interface SettingsProps {
   settings: SystemSettings;
   onSaveSettings: (settings: SystemSettings) => void;
+  currentUser: SystemUser;
+  onResetData: () => void;
 }
 
-export const Settings: React.FC<SettingsProps> = ({ settings, onSaveSettings }) => {
+export const Settings: React.FC<SettingsProps> = ({ settings, onSaveSettings, currentUser, onResetData }) => {
   const [form, setForm] = useState<SystemSettings>(settings);
   const [saved, setSaved] = useState(false);
-  const [activeTab, setActiveTab] = useState<'config' | 'agent'>('config');
+  const [activeTab, setActiveTab] = useState<'config' | 'agent' | 'danger'>('config');
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +101,16 @@ if __name__ == "__main__":
           >
             Script Agent Windows
           </button>
+          {currentUser.role === 'Super Admin' && (
+            <button
+              onClick={() => setActiveTab('danger')}
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                activeTab === 'danger' ? 'bg-rose-600 text-white shadow-xs' : 'text-rose-600 hover:bg-rose-50'
+              }`}
+            >
+              Zona Bahaya
+            </button>
+          )}
         </div>
       </div>
 
@@ -189,7 +202,7 @@ if __name__ == "__main__":
             </button>
           </div>
         </form>
-      ) : (
+      ) : activeTab === 'agent' ? (
         <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 text-white space-y-4 shadow-xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -217,6 +230,52 @@ if __name__ == "__main__":
           <pre className="bg-slate-950 p-4 rounded-xl text-slate-300 font-mono text-xs overflow-x-auto border border-slate-800">
             {pythonAgentCode}
           </pre>
+        </div>
+      ) : (
+        <div className="bg-white rounded-2xl border border-rose-200 p-8 shadow-xs space-y-4">
+          <div className="flex items-center space-x-3 text-rose-600">
+            <AlertTriangle className="w-8 h-8" />
+            <h3 className="text-xl font-black">Zona Bahaya (Super Admin Only)</h3>
+          </div>
+          <p className="text-sm text-slate-600">
+            Tindakan ini tidak dapat dibatalkan. Menghapus semua data sistem akan menghapus seluruh data inventaris, tiket, log, dan konfigurasi saat ini.
+          </p>
+          <button
+            onClick={() => setShowResetConfirm(true)}
+            className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-sm shadow-lg shadow-rose-600/30 flex items-center space-x-2"
+          >
+            <Trash2 className="w-4 h-4" />
+            <span>Hapus Semua Data Sistem</span>
+          </button>
+        </div>
+      )}
+
+      {/* Reset confirmation modal */}
+      {showResetConfirm && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <h3 className="text-lg font-bold text-slate-900">Konfirmasi Hapus Seluruh Data?</h3>
+            <p className="text-sm text-slate-600">
+              Apakah Anda yakin? Seluruh data sistem akan dihapus dan aplikasi akan dimuat ulang.
+            </p>
+            <div className="flex justify-end space-x-3 pt-2">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
+              >
+                Batal
+              </button>
+              <button
+                onClick={() => {
+                  setShowResetConfirm(false);
+                  onResetData();
+                }}
+                className="px-4 py-2 rounded-xl text-sm font-semibold bg-rose-600 hover:bg-rose-700 text-white transition-colors shadow-lg shadow-rose-600/20"
+              >
+                Ya, Hapus Semua Data
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

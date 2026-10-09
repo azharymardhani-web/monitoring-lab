@@ -294,6 +294,8 @@ export default function App() {
             <Settings
               settings={settings}
               onSaveSettings={handleSaveSettings}
+              currentUser={currentUser}
+              onResetData={handleResetData}
             />
           )}
         </main>
