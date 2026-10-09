@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Monitor, Cpu, HardDrive, Wifi, WifiOff, AlertTriangle, AlertOctagon, Wrench, CheckCircle2 } from 'lucide-react';
+import { Monitor, Cpu, HardDrive, Wifi, WifiOff, AlertTriangle, AlertOctagon, Wrench, CheckCircle2, Download } from 'lucide-react';
 import { Device, DeviceMetric } from '../types';
 
 interface DeviceMapProps {
@@ -64,8 +64,17 @@ export const DeviceMap: React.FC<DeviceMapProps> = ({ devices, metrics, onSelect
         <div>
           <h2 className="text-lg font-bold text-slate-900">Peta Posisi Komputer Laboratorium (Zigzag 8×4)</h2>
           <p className="text-xs text-slate-500">
-            Tata letak fisik 32 PC laboratorium. PC-1 berada di pojok kanan depan, tersusun zigzag bolak-balik per baris.
+            Tata letak fisik PC laboratorium dan posisi meja Server Lokal.
           </p>
+        </div>
+        <div className="flex items-center gap-3 print:hidden">
+          <button
+            onClick={() => window.print()}
+            className="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold flex items-center space-x-2 transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            <span>Cetak Peta</span>
+          </button>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <select
@@ -119,20 +128,51 @@ export const DeviceMap: React.FC<DeviceMapProps> = ({ devices, metrics, onSelect
 
       {/* Lab Room Layout Box */}
       <div className="bg-slate-900 rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-800 text-white space-y-6">
-        {/* Top: Papan Tulis / Depan Lab */}
-        <div className="text-center py-3 bg-slate-800/80 rounded-2xl border border-slate-700 shadow-inner">
-          <p className="text-xs uppercase tracking-widest font-black text-blue-400">DEPAN LAB / PAPAN TULIS / MEJA GURU</p>
+        {/* Top: Papan Tulis / Depan Lab & Server Table */}
+        <div className="flex gap-4">
+          <div className="flex-1 text-center py-3 bg-slate-800/80 rounded-2xl border border-slate-700 shadow-inner flex items-center justify-center">
+            <p className="text-xs uppercase tracking-widest font-black text-blue-400">DEPAN LAB / PAPAN TULIS</p>
+          </div>
+          <div className="w-20 py-3 bg-emerald-900/40 rounded-2xl border border-emerald-800 shadow-inner flex flex-col items-center justify-center px-2">
+            <p className="text-[9px] font-bold text-emerald-300 text-center leading-tight">PINTU MASUK</p>
+            <Wifi className="w-5 h-5 text-emerald-400 mt-1" />
+          </div>
+        </div>
+
+        {/* Server Table */}
+        <div className="flex items-center space-x-3 bg-slate-800/50 p-3 rounded-2xl border border-slate-700/80 w-fit">
+          <span className="text-[11px] font-bold text-slate-400 px-1">MEJA SERVER:</span>
+          <div className="flex gap-3">
+            {devices.filter(d => d.isServer).slice(0, 1).map(server => (
+              <div
+                key={server.id}
+                onClick={() => onSelectDevice(server)}
+                className={`p-3 w-36 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between shadow-sm relative group ${getStatusColor(server)} hover:scale-102 hover:shadow-lg`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-bold text-xs tracking-tight">{server.deviceName.split(' ')[0]}</span>
+                  <span className={`w-2 h-2 rounded-full ${
+                    server.connectionStatus === 'online' ? 'bg-emerald-500' :
+                    server.connectionStatus === 'offline' ? 'bg-rose-500' : 'bg-slate-400'
+                  }`} title={server.connectionStatus} />
+                </div>
+                <div className="text-[10px] text-slate-500 font-mono truncate">
+                  {server.serverRole || 'Server'}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* 4 Rows Grid */}
-        <div className="space-y-4">
+        <div className="space-y-4 print:space-y-2">
           {[1, 2, 3, 4].map((rowNum) => (
             <div key={rowNum} className="space-y-1">
-              <div className="flex justify-between items-center text-[11px] text-blue-300 px-2 font-mono">
+              <div className="flex justify-between items-center text-[11px] text-blue-300 px-2 font-mono print:hidden">
                 <span>BARIS {rowNum}</span>
                 <span>{rowNum === 1 ? 'Kanan ke Kiri (PC-8 s.d PC-1)' : rowNum === 2 ? 'Kiri ke Kanan (PC-9 s.d PC-16)' : rowNum === 3 ? 'Kanan ke Kiri (PC-24 s.d PC-17)' : 'Kiri ke Kanan (PC-25 s.d PC-32)'}</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 print:gap-1">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((colNum) => {
                   const device = getDeviceByPosition(rowNum, colNum);
                   const metric = device ? metrics[device.id] : undefined;
@@ -145,7 +185,7 @@ export const DeviceMap: React.FC<DeviceMapProps> = ({ devices, metrics, onSelect
                     <div
                       key={colNum}
                       onClick={() => device && onSelectDevice(device)}
-                      className={`p-3 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between shadow-sm relative group ${
+                      className={`p-3 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between shadow-sm relative group print:shadow-none print:border-slate-400 ${
                         getStatusColor(device)
                       } ${isFilteredOut ? 'opacity-30' : 'opacity-100 hover:scale-102 hover:shadow-lg'}`}
                     >
@@ -159,7 +199,7 @@ export const DeviceMap: React.FC<DeviceMapProps> = ({ devices, metrics, onSelect
                             }`} title={device.connectionStatus} />
                           </div>
 
-                          <div className="my-1 space-y-1 text-[11px]">
+                          <div className="my-1 space-y-1 text-[11px] print:hidden">
                             <div className="flex justify-between text-slate-500 font-mono">
                               <span>Pos #{device.positionIndex}</span>
                               <span className="text-slate-700 font-bold">{metric ? `${metric.cpuUsage}% CPU` : '—'}</span>
@@ -168,11 +208,6 @@ export const DeviceMap: React.FC<DeviceMapProps> = ({ devices, metrics, onSelect
                               <span>RAM</span>
                               <span className="text-slate-700 font-bold">{metric ? `${metric.memoryUsage}%` : '—'}</span>
                             </div>
-                          </div>
-
-                          <div className="mt-2 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-500 font-medium">
-                            <span className="truncate">{device.ipAddress}</span>
-                            <span className="font-bold text-blue-600 capitalize">{device.status === 'normal' ? 'Normal' : device.status === 'needs_inspection' ? 'Cek' : device.status === 'critical' ? 'Bermasalah' : 'Perbaikan'}</span>
                           </div>
                         </>
                       ) : (
@@ -189,8 +224,8 @@ export const DeviceMap: React.FC<DeviceMapProps> = ({ devices, metrics, onSelect
         </div>
 
         {/* Bottom: Belakang Lab */}
-        <div className="text-center py-3 bg-slate-800/80 rounded-2xl border border-slate-700 shadow-inner">
-          <p className="text-xs uppercase tracking-widest font-black text-slate-400">BELAKANG LAB / PINTU MASUK</p>
+        <div className="text-center py-3 bg-slate-800/80 rounded-2xl border border-slate-700 shadow-inner print:hidden">
+          <p className="text-xs uppercase tracking-widest font-black text-slate-400">BELAKANG LAB</p>
         </div>
       </div>
     </div>
