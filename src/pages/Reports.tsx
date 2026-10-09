@@ -13,6 +13,14 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
   const [reportType, setReportType] = useState('inventory');
   const settings = StorageService.getSettings();
 
+  const sortedDevices = [...devices].sort((a, b) => {
+    if (a.isServer && !b.isServer) return -1;
+    if (!a.isServer && b.isServer) return 1;
+    const numA = parseInt(a.deviceName.replace(/[^0-9]/g, '')) || 0;
+    const numB = parseInt(b.deviceName.replace(/[^0-9]/g, '')) || 0;
+    return numA - numB;
+  });
+
   const reportOptions = [
     { id: 'inventory', title: '1. Laporan Inventaris Seluruh PC (32 Unit)' },
     { id: 'condition', title: '2. Laporan Kondisi PC Saat Ini' },
@@ -52,7 +60,7 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
             </tr>
           </thead>
           <tbody>
-            ${devices.map((d, i) => `
+            ${sortedDevices.map((d, i) => `
               <tr>
                 <td>${i + 1}</td>
                 <td><b>${d.deviceName}</b></td>
@@ -85,7 +93,7 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
             </tr>
           </thead>
           <tbody>
-            ${devices.map((d, i) => `
+            ${sortedDevices.map((d, i) => `
               <tr>
                 <td>${i + 1}</td>
                 <td><b>${d.deviceName}</b></td>
@@ -133,7 +141,7 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
             </tr>
           </thead>
           <tbody>
-            ${devices.map(d => `
+            ${sortedDevices.map(d => `
               <tr>
                 <td><b>${d.deviceName} (${d.inventoryNumber})</b></td>
                 <td><b>${d.status}</b></td>
@@ -268,7 +276,7 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
                 </tr>
               </thead>
               <tbody>
-                {[...devices].sort((a, b) => a.deviceName.localeCompare(b.deviceName)).map((d, i) => (
+                {sortedDevices.map((d, i) => (
                   <tr key={d.id} className="hover:bg-slate-50">
                     <td className="px-3 py-2 border border-slate-300 text-center font-medium">{i + 1}</td>
                     <td className="px-3 py-2 border border-slate-300 font-bold">{d.deviceName}</td>
@@ -301,7 +309,7 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
                 </tr>
               </thead>
               <tbody>
-                {devices.map((d, i) => (
+                {sortedDevices.map((d, i) => (
                   <tr key={d.id}>
                     <td className="px-3 py-2 border border-slate-300 text-center">{i + 1}</td>
                     <td className="px-3 py-2 border border-slate-300 font-bold">{d.deviceName}</td>
@@ -349,7 +357,7 @@ export const Reports: React.FC<ReportsProps> = ({ devices, tickets, maintenance 
                 </tr>
               </thead>
               <tbody>
-                {devices.map(d => (
+                {sortedDevices.map(d => (
                   <tr key={d.id}>
                     <td className="px-3 py-2 border border-slate-300 font-bold">{d.deviceName} ({d.inventoryNumber})</td>
                     <td className="px-3 py-2 border border-slate-300 font-bold">{d.status}</td>
