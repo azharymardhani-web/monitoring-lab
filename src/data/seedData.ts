@@ -168,7 +168,7 @@ export const initialTickets: FaultTicket[] = [
     technician: 'Budi Santoso (Teknisi)',
     status: 'Dalam Perbaikan',
     diagnosis: 'Power supply Unit (PSU) mengalami konsleting.',
-    actionToken: 'Menunggu penggantian komponen PSU baru.',
+    actionTaken: 'Menunggu penggantian komponen PSU baru.',
     spareParts: 'PSU 300W TFX',
     repairCost: 350000,
   },

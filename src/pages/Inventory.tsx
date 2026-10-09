@@ -82,6 +82,8 @@ export const Inventory: React.FC<InventoryProps> = ({
       softwareCondition: newDevice.softwareCondition || 'Normal',
       status: newDevice.status || 'normal',
       connectionStatus: newDevice.connectionStatus || 'online',
+      isServer: newDevice.isServer || false,
+      serverRole: newDevice.serverRole,
       notes: newDevice.notes || '',
       createdAt: now,
       updatedAt: now,
@@ -273,11 +275,39 @@ export const Inventory: React.FC<InventoryProps> = ({
             <form onSubmit={handleCreateSubmit} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
+                  <label className="block text-slate-500 mb-1">Tipe Perangkat</label>
+                  <select
+                    value={newDevice.isServer ? 'server' : 'client'}
+                    onChange={e => {
+                      const isServer = e.target.value === 'server';
+                      setNewDevice({ ...newDevice, isServer, serverRole: isServer ? 'Server Lokal' : undefined });
+                    }}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                  >
+                    <option value="client">Client PC</option>
+                    <option value="server">Komputer Server</option>
+                  </select>
+                </div>
+                {newDevice.isServer && (
+                  <div>
+                    <label className="block text-slate-500 mb-1">Peran Server</label>
+                    <select
+                      value={newDevice.serverRole || 'Server Lokal'}
+                      onChange={e => setNewDevice({ ...newDevice, serverRole: e.target.value as any })}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                    >
+                      <option value="Server Utama (Exambrowser)">Server Utama (Exambrowser)</option>
+                      <option value="Server Proktor">Server Proktor</option>
+                      <option value="Server Lokal">Server Lokal</option>
+                    </select>
+                  </div>
+                )}
+                <div>
                   <label className="block text-slate-500 mb-1">Nama Perangkat</label>
                   <input
                     type="text"
                     value={newDevice.deviceName || ''}
-                    onChange={e => setNewDevice({...newDevice, deviceName: e.target.value})}
+                    onChange={e => setNewDevice({ ...newDevice, deviceName: e.target.value })}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
                     required
                   />
@@ -313,6 +343,47 @@ export const Inventory: React.FC<InventoryProps> = ({
                   />
                 </div>
                 <div>
+                  <label className="block text-slate-500 mb-1">Prosesor (CPU)</label>
+                  <input
+                    type="text"
+                    value={newDevice.processor || ''}
+                    onChange={e => setNewDevice({...newDevice, processor: e.target.value})}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-500 mb-1">Kapasitas RAM</label>
+                  <input
+                    type="text"
+                    value={newDevice.ramCapacity || ''}
+                    onChange={e => setNewDevice({...newDevice, ramCapacity: e.target.value})}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-500 mb-1">Penyimpanan (Storage)</label>
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      value={newDevice.storageType || ''}
+                      onChange={e => setNewDevice({...newDevice, storageType: e.target.value})}
+                      className="w-1/3 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                      placeholder="SSD / HDD"
+                      required
+                    />
+                    <input
+                      type="text"
+                      value={newDevice.storageCapacity || ''}
+                      onChange={e => setNewDevice({...newDevice, storageCapacity: e.target.value})}
+                      className="w-2/3 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                      placeholder="256 GB"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
                   <label className="block text-slate-500 mb-1">IP Address</label>
                   <input
                     type="text"
@@ -332,6 +403,15 @@ export const Inventory: React.FC<InventoryProps> = ({
                     onChange={e => setNewDevice({...newDevice, positionIndex: Number(e.target.value)})}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
                     required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-slate-500 mb-1">Catatan</label>
+                  <input
+                    type="text"
+                    value={newDevice.notes || ''}
+                    onChange={e => setNewDevice({...newDevice, notes: e.target.value})}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
                   />
                 </div>
               </div>
