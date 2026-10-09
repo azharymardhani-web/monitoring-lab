@@ -400,13 +400,27 @@ export const Inventory: React.FC<InventoryProps> = ({
                       type="number"
                       min="1"
                       max="32"
-                      value={newDevice.positionIndex || 1}
-                      onChange={e => setNewDevice({...newDevice, positionIndex: Number(e.target.value)})}
+                      value={newDevice.positionIndex || ''}
+                      onChange={e => setNewDevice({...newDevice, positionIndex: e.target.value === '' ? undefined : Number(e.target.value)})}
                       className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                      placeholder="Masukkan angka..."
                       required
                     />
                   </div>
                 )}
+                <div className="sm:col-span-2 grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-slate-500 mb-1">Sistem Operasi (OS)</label>
+                    <input
+                      type="text"
+                      value={newDevice.os || ''}
+                      onChange={e => setNewDevice({...newDevice, os: e.target.value})}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
+                      placeholder="Contoh: Windows 11 Pro"
+                      required
+                    />
+                  </div>
+                </div>
                 <div className="sm:col-span-2">
                   <label className="block text-slate-500 mb-1">Catatan</label>
                   <input
